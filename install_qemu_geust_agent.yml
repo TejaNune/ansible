@@ -1,6 +1,6 @@
 ---
-- name: update repository index
 - hosts: all
+  name: update repository index
   become: true
   tasks:
 
