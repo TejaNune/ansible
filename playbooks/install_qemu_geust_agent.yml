@@ -11,4 +11,4 @@
           - name: install qemu guest agent package
             apt:
                     name: qemu-guest-agent
-                    state: present 
+                    state: present  
