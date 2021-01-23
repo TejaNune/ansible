@@ -1,6 +1,6 @@
 ---
 
-- hosts: office
+- hosts: all
   become: true
   tasks:
 
