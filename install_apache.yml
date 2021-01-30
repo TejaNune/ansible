@@ -3,39 +3,10 @@
   hosts: all
   become: true
   tasks:
-            #Debian
-          - name: update repository index
-            apt:
-                    update_cache: yes
-            when: ansible_facts['os_family'] == "Debian"
-          
-          - name: install apache2 package
-            apt:
-                    name: apache2
-                    state: latest
-            when: ansible_facts['os_family'] == "Debian"
-
-          - name: add php support for apache
-            apt:
-                    name: libapache2-mod-php
-                    state: latest
-            when: ansible_facts['os_family'] == "Debian"
-
-            #Fedora
-          - name: update repository index
-            apt:
-                    update_cache: yes
-            when: ansible_facts['os_family'] == "Fedora"
-
-          - name: install apache2 package
-            apt:
-                    name: apache2
-                    state: latest
-            when: ansible_facts['os_family'] == "Fedora"
-
-          - name: add php support for apache
-            apt:
-                    name: libapache2-mod-php
-                    state: latest
-            when: ansible_facts['os_family'] == "Fedora"
-
+            - name: install apache & PHP packages
+              package:
+                      update_cache: yes
+                      name:
+                              - "{{ apache_package }}"
+                              - "{{ php_package }}"
+                      state: latest
