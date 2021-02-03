@@ -1,5 +1,7 @@
-[default]
-#Ubuntu
+[Ubuntu]
+
 10.1.60.58 apache_package=apache2 php_package=libapache2-mod-php
-#CentOS
-#apache_package=httpd php_package=php
+
+[CentOs]
+
+10.1.70.254 apache_package=httpd php_package=php
