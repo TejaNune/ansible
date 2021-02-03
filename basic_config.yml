@@ -1,0 +1,23 @@
+---
+- name: Basic Configuration of CentOs
+  hosts: CentOs
+  become: true
+  task: 
+          - name: Disable Firewall
+            sysctl:
+                  name: firewalld
+                  state: absent
+
+          - name: Disable Selinux
+            selinux_permissive:
+                  permissive: false
+
+          - name: Install basic packages
+            package:
+                    update_cache: yes
+                    name:
+                            - vim
+                            - wget
+                            - epel-release
+                    state: lastest
+
