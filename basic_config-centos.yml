@@ -10,7 +10,7 @@
                             - vim
                             - wget
                             - epel-release
-                            - qume-guest-agent  
+                            - qemu-guest-agent  
                     state: latest
            
           - name: Disable Firewall
