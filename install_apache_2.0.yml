@@ -1,0 +1,30 @@
+---
+- name: Installation Apache / HTTP services 
+  hosts: all
+  become: true
+  tasks:
+            - name: install apache & PHP packages [Debein Family]
+              package:
+                      update_cache: yes
+                      name:
+                              - apache2
+                              - libapache2-mod-php
+                      state: latest
+              when: ansible_os_family == "Debian"
+
+            - name: install apache & PHP packages [RedHat OS Family]
+              package:
+                      update_cache: yes
+                      name:
+                              - httpd
+                              - php
+                      state: latest
+              when: ansible_os_family == "RHEL"
+              register: httpd
+              
+            - name: Start httpd Service [RedHat OS Family]
+              service:
+                name: httpd
+                state: started
+                enabled: yes
+              when: httpd.changed
