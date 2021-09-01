@@ -1,0 +1,44 @@
+---
+- name: Basic Configuration of CentOs
+  hosts: all
+  become: true
+  tasks:
+          - name: Install basic packages [On Both Debein & RedHat OS Families]
+            package:
+                    update_cache: yes
+                    name:
+                            - vim
+                            - wget
+                            - qemu-guest-agent  
+                    state: latest
+          
+          - name: Install basic packages [RedHat OS Family]
+            package:
+                    update_cache: yes
+                    name:
+                            - epel-release
+                    state: latest
+            when: ansible_os_family == "RHEL"
+
+          - name: Disable Firewall [Debein Family]
+            service:
+                  name: ufw
+                  state: stopped
+                  enabled: no
+            when: ansible_os_family == "Debein"
+
+          - name: Disable Firewall [RedHat OS Family]
+            service:
+                  name: firewalld
+                  state: stopped
+                  enabled: no
+            when: ansible_os_family == "RHEL"
+          
+          - name: Disable Selinux
+            lineinfile:
+              path: /etc/selinux/config
+              regexp: '^SELINUX=enforcing'
+              line: SELINUX=diabled
+            when: ansible_os_family == "RHEL"
+                  
+           
