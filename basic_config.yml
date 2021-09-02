@@ -20,12 +20,12 @@
                     state: latest
             when: ansible_os_family == "RHEL"
 
-          - name: Disable Firewall [Debein Family]
-            service:
-                  name: ufw
-                  state: stopped
-                  enabled: no
-            when: ansible_os_family == "Debein"
+              #- name: Disable Firewall [Debein Family]
+              #service:
+              #name: ufw
+              #state: stopped
+              #enabled: no
+              #when: ansible_os_family == "Debein"
 
           - name: Disable Firewall [RedHat OS Family]
             service:
