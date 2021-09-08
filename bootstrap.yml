@@ -1,21 +1,25 @@
 ---
-- name: Initial Ansiable Playbook
+- name: initial ansiable playbook
   hosts: all
   become: true
+  
   tasks:
-          - name: Create Ansiable User Account
-            ansiable.buitin.user:
-                    name: simone
-                    comment: Ansiable User
-                    group: root
-                    password: "80085"
-
-          - name: Add ssh key for simone
-            authorized_key:
-                    user: simone
-                    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMHGB945OVlLpLPKGdmgUSyniGTBovT3G2nrWr0d88j7 pnk@power9"
-
-          - name: add sudoers file for simone
-            copy:
-                    src: sudoer_simone
-                    dest: /etc/sudoers.d/simone
+  - name: create ansiable user account
+    ansible.builtin.user:
+            name: simone
+            comment: Ansiable User
+            group: root
+            password: "80085"
+            
+  - name: add ssh key for simone
+    authorized_key:
+            user: simone
+            key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMHGB945OVlLpLPKGdmgUSyniGTBovT3G2nrWr0d88j7 pnk@power9"
+             
+  - name: add sudoers file for simone
+    copy:
+            src: sudoer_simone
+            dest: /etc/sudoers.d/simone
+            owner: root
+            group: root
+            mode: 0440
