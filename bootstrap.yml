@@ -4,22 +4,27 @@
   become: true
   
   tasks:
-  - name: create ansiable user account
-    ansible.builtin.user:
-            name: simone
-            comment: Ansiable User
-            group: root
-            password: "80085"
-            
+
+  - name: create simone user
+    tags: always
+    user:
+      name: simone
+      password: '$6$lSX6j3w11zQwEfAP$pBnIhpQSsA.vQFnwbYWjsbQb5oQkAF9ZpXE5mHv.Hc/kFmxUeHAZYqTUu8AwQz4t2Bw/sbJ5SM1fMfhtlHQtr/' #password is 80085 with sha 512
+      groups: root
+      shell: /bin/bash
+
   - name: add ssh key for simone
+    tags: always
     authorized_key:
-            user: simone
-            key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMHGB945OVlLpLPKGdmgUSyniGTBovT3G2nrWr0d88j7 pnk@power9"
-             
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMHGB945OVlLpLPKGdmgUSyniGTBovT3G2nrWr0d88j7 pnk@power9
+"
+
   - name: add sudoers file for simone
+    tags: always
     copy:
-            src: sudoer_simone
-            dest: /etc/sudoers.d/simone
-            owner: root
-            group: root
-            mode: 0440
+      src: sudoer_simone
+      dest: /etc/sudoers.d/simone
+      owner: root
+      group: root
+      mode: 0440
