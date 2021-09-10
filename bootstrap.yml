@@ -3,7 +3,23 @@
   hosts: all
   become: true
   
-  tasks:
+  pre_tasks:
+
+  - name: install updates [RedHat OS Family]
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_os_family == "RHEL"
+
+  - name: install updates [Debein Family]
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_os_family == "Debein"
+
+  post_tasks:
 
   - name: create simone user
     tags: always
@@ -28,3 +44,21 @@
       owner: root
       group: root
       mode: 0440
+
+  - name: Install basic packages [On Both Debein & RedHat OS Families]
+    package:
+            update_cache: yes
+            name:
+                    - vim
+                    - wget
+                    - qemu-guest-agent
+            state: latest
+
+  - name: Install basic packages [RedHat OS Family]
+    package:
+            update_cache: yes
+            name:
+                    - epel-release
+            state: latest
+    when: ansible_os_family == "RHEL"
+         
