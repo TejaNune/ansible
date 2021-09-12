@@ -6,23 +6,20 @@
   pre_tasks:
 
   - name: install updates [RedHat OS Family]
-    tags: always
-    dnf:
+    package:
       update_only: yes
       update_cache: yes
     when: ansible_os_family == "RHEL"
 
   - name: install updates [Debein Family]
-    tags: always
-    apt:
+    package:
       upgrade: dist
       update_cache: yes
-    when: ansible_os_family == "Debein"
+    when: ansible_os_family == "Debian"
 
   post_tasks:
 
   - name: create simone user
-    tags: always
     user:
       name: simone
       password: '$6$lSX6j3w11zQwEfAP$pBnIhpQSsA.vQFnwbYWjsbQb5oQkAF9ZpXE5mHv.Hc/kFmxUeHAZYqTUu8AwQz4t2Bw/sbJ5SM1fMfhtlHQtr/' #password is 80085 with sha 512
@@ -30,14 +27,12 @@
       shell: /bin/bash
 
   - name: add ssh key for simone
-    tags: always
     authorized_key:
       user: simone
       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMHGB945OVlLpLPKGdmgUSyniGTBovT3G2nrWr0d88j7 pnk@power9
 "
 
   - name: add sudoers file for simone
-    tags: always
     copy:
       src: sudoer_simone
       dest: /etc/sudoers.d/simone
@@ -45,7 +40,7 @@
       group: root
       mode: 0440
 
-  - name: Install basic packages [On Both Debein & RedHat OS Families]
+  - name: Install basic packages [On Both Debian & RedHat OS Families]
     package:
             update_cache: yes
             name:
@@ -61,4 +56,37 @@
                     - epel-release
             state: latest
     when: ansible_os_family == "RHEL"
-         
+
+  - name: Disable Firewall [Debian Family]
+    ufw:
+            state: disabled
+    when: ansible_os_family == "Debian"
+
+  - name: Disable Firewall [RedHat OS Family]
+    service:
+            name: firewalld
+            state: stopped
+            enabled: no
+    when: ansible_os_family == "RHEL"
+
+  - name: Disable Selinux
+    lineinfile:
+            path: /etc/selinux/config
+            regexp: '^SELINUX=enforcing'
+            line: SELINUX=diabled
+    when: ansible_os_family == "RHEL"
+  
+  - name: Disable Firewall [RedHat OS Family]
+    service:
+            name: firewalld
+            state: stopped
+            enabled: no
+    when: ansible_os_family == "RHEL"
+
+  - name: Disable Selinux
+    lineinfile:
+            path: /etc/selinux/config
+            regexp: '^SELINUX=enforcing'
+            line: SELINUX=diabled
+    when: ansible_os_family == "RHEL"
+    
