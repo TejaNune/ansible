@@ -23,7 +23,7 @@
     user:
       name: simone
       password: '$6$lSX6j3w11zQwEfAP$pBnIhpQSsA.vQFnwbYWjsbQb5oQkAF9ZpXE5mHv.Hc/kFmxUeHAZYqTUu8AwQz4t2Bw/sbJ5SM1fMfhtlHQtr/' #password is 80085 with sha 512
-      groups: root
+      groups: root,sudo
       shell: /bin/bash
 
   - name: add ssh key for simone
