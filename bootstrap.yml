@@ -9,7 +9,7 @@
     package:
       update_only: yes
       update_cache: yes
-    when: ansible_os_family == "RHEL"
+    when: ansible_os_family == "RedHat"
 
   - name: install updates [Debian Family]
     package:
@@ -49,12 +49,10 @@
             state: latest
 
   - name: Install basic packages [RedHat OS Family]
-    package:
-            update_cache: yes
-            name:
-                    - epel-release
-            state: latest
-    when: ansible_os_family == "RHEL"
+    yum:
+            name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"
+            state: present
+    when: ansible_os_family == "RedHat"
 
   - name: Disable Firewall [Debian Family]
     ufw:
@@ -66,26 +64,26 @@
             name: firewalld
             state: stopped
             enabled: no
-    when: ansible_os_family == "RHEL"
+    when: ansible_os_family == "RedHat"
 
   - name: Disable Selinux
     lineinfile:
             path: /etc/selinux/config
             regexp: '^SELINUX=enforcing'
             line: SELINUX=diabled
-    when: ansible_os_family == "RHEL"
+    when: ansible_os_family == "RedHat"
   
   - name: Disable Firewall [RedHat OS Family]
     service:
             name: firewalld
             state: stopped
             enabled: no
-    when: ansible_os_family == "RHEL"
+    when: ansible_os_family == "RedHat"
 
   - name: Disable Selinux
     lineinfile:
             path: /etc/selinux/config
             regexp: '^SELINUX=enforcing'
             line: SELINUX=diabled
-    when: ansible_os_family == "RHEL"
+    when: ansible_os_family == "RedHat"
     
