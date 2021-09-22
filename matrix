@@ -1,3 +1,6 @@
-[all]
+[backup_server]
 172.31.17.80
-ec2-user@172.31.46.17
+
+[server]
+#ec2-user@
+172.31.46.17
