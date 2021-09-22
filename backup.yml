@@ -1,0 +1,21 @@
+---
+- name: Backup Playbook
+  hosts: backup_server
+  become: true
+  tasks:
+          
+          - name: add ssh key for simone
+            authorized_key:
+                    user: simone
+                    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJTwGOZ3bYS+4/xgNOuFTEcMsz3Y/ItbcDE+xnWUrPhF ubuntu@ip-172-31-17-80"
+
+          
+          
+          - name: Mount Test Server
+            mount:
+                    src: "//172.31.46.17/opt/test_dir"
+                    path: "/mnt/test_server"
+                    state: mounted
+                    opts: 'username=simone, password=80085'
+                    fstype: cifs
+            become: true
