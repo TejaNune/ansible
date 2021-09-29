@@ -50,8 +50,8 @@
 
   - name: Install basic packages [RedHat OS Family]
     yum:
-            name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"
-            state: present
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"
+    state: present
     when: ansible_os_family == "RedHat"
 
   - name: Disable Firewall [Debian Family]
